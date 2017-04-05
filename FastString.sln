@@ -1,0 +1,23 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FastString", "FastString\FastString.csproj", "{08E0F5AB-063A-47ED-9E72-211E0C999098}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FastString.Test", "FastString.Test\FastString.Test.csproj", "{AEF8548A-45B0-4F9B-A099-D4C88049282E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{08E0F5AB-063A-47ED-9E72-211E0C999098}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08E0F5AB-063A-47ED-9E72-211E0C999098}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08E0F5AB-063A-47ED-9E72-211E0C999098}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08E0F5AB-063A-47ED-9E72-211E0C999098}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AEF8548A-45B0-4F9B-A099-D4C88049282E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEF8548A-45B0-4F9B-A099-D4C88049282E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEF8548A-45B0-4F9B-A099-D4C88049282E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEF8548A-45B0-4F9B-A099-D4C88049282E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

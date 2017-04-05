@@ -86,6 +86,11 @@ namespace FastString
 			get { return _bytes.Count; }
 		}
 
+		public bool HasValue
+		{
+			get { return _bytes.Count > 0; }
+		}
+
 		/// <summary>
 		/// Get the underlying UTF-8 data for this string.
 		/// </summary>
@@ -270,7 +275,7 @@ namespace FastString
 		///
 		/// This allocates for the output array, but does not copy string data.
 		/// </remarks>
-		public utf8[] Split(char[] splitOn)
+		public utf8[] Split(char[] splitOn, int maxSplits = int.MaxValue)
 		{
 			var points = new List<utf8>();
 			var last = 0;
@@ -284,6 +289,10 @@ namespace FastString
 						points.Add(Substring(last, it.Current.Index - last));
 						last = it.Current.Index;
 					}
+				}
+				if (points.Count >= maxSplits - 1)
+				{
+					break;
 				}
 			}
 			points.Add(Substring(last, it.Current.Index - last));
@@ -807,7 +816,6 @@ next: {}
 			return !a.Equals(b);
 		}
 
-		/*
 		public utf8 Format(params object[] args)
 		{
 			return utf8.Format(this, args);
@@ -817,9 +825,8 @@ next: {}
 		{
 			var ub = new Utf8Builder();
 			ub.AppendFormat(fmt, args);
-			return ub.ToString();
+			return ub.ToUtf8();
 		}
-		*/
 
 		public static utf8 FromInt(int i, int radix = 10)
 		{

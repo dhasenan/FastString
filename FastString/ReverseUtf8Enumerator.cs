@@ -1,14 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.IO;
-using System.Text;
 
 namespace FastString
 {
-
-	public struct ReverseUtf8Enumerator : System.Collections.Generic.IEnumerator<UtfIndex>
+	/// <summary>
+	/// An enumerator that goes backwards through a UTF8 string.
+	/// </summary>
+	public struct ReverseUtf8Enumerator : IEnumerator<UtfIndex>
 	{
 		private utf8 _data;
 		private UtfIndex _current;
@@ -56,12 +56,24 @@ namespace FastString
 			while (i > 0)
 			{
 				i--;
-				var c = _data[i];
 				int delta = _current.Index - i;
+
+				var c = _data[i];
+				if (c <= 127)
+				{
+					if (delta > 1)
+					{
+						throw new InvalidDataException(
+								string.Format("Input data contains invalid UTF8 sequence around byte offset {0}", i));
+					}
+					_current.Index = i;
+					_current.Value = c;
+					return true;
+				}
 				if (delta > 5)
 				{
 					throw new InvalidDataException(
-							string.Format("Input data contains invalid UTF8 sequence around byte offset {1}", i));
+							string.Format("Input data contains invalid UTF8 sequence around byte offset {0}", i));
 				}
 				if ((c & 0xC0) == 2)
 				{

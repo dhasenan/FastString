@@ -34,6 +34,7 @@
     <Compile Include="StringSliceTest.cs" />
     <Compile Include="Utf8Test.cs" />
     <Compile Include="Utf8WriterTest.cs" />
+    <Compile Include="ReverseUtf8EnumeratorTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

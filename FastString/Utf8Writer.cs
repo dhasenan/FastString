@@ -40,6 +40,11 @@ namespace FastString
 			_out.WriteByte((byte)'\n');
 		}
 
+		public void AppendLine()
+		{
+			_out.WriteByte((byte)'\n');
+		}
+
 		public void AppendFormat(utf8 fmt, params object[] args)
 		{
 			AppendFormat(null, fmt, args);

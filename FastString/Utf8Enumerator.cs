@@ -16,7 +16,9 @@ namespace FastString
 	/// </remarks>
 	public struct Utf8Enumerator : IEnumerator<UtfIndex>
 	{
-		private readonly utf8 _data;
+		private readonly byte[] _data;
+		private readonly int _offset;
+		private readonly int _count;
 		private UtfIndex _current;
 		private int _nextIndex;
 
@@ -25,7 +27,9 @@ namespace FastString
 		/// </summary>
 		public Utf8Enumerator(utf8 data)
 		{
-			_data = data;
+			_data = data._bytes.Array;
+			_offset = data._bytes.Offset;
+			_count = data._bytes.Count;
 			_current = new UtfIndex();
 			_current.Index = -1;
 			_nextIndex = 0;
@@ -59,9 +63,9 @@ namespace FastString
 		/// </summary>
 		public bool MoveNext()
 		{
-			if (_nextIndex >= _data.Length) return false;
+			if (_nextIndex >= _count) return false;
 
-			var c = _data[_nextIndex];
+			var c = _data[_nextIndex + _offset];
 			if ((c & 0x80) == 0)
 			{
 				// Single-octet character.
@@ -104,11 +108,11 @@ namespace FastString
 				throw new InvalidDataException("The input was terminated in the middle of a UTF sequence.");
 			}
 			// 11100010:10000000:10011101
-			uint accumulator = (uint)(_data[_nextIndex] & mask);
+			uint accumulator = (uint)(_data[_nextIndex + _offset] & mask);
 			for (int j = 1; j < count; j++)
 			{
 				accumulator <<= 6;
-				var curr = _data[_nextIndex + j] & 0x3F;
+				var curr = _data[_nextIndex + j + _offset] & 0x3F;
 				accumulator |= (uint)curr;
 			}
 			_current.Index = _nextIndex;

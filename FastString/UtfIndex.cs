@@ -1,13 +1,5 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics.Contracts;
-using System.IO;
-using System.Text;
-
 namespace FastString
 {
-
 	/// <summary>
 	/// An index/value pair into a UTF string.
 	/// </summary>
@@ -31,6 +23,20 @@ namespace FastString
 		/// instead.
 		/// </remarks>
 		public uint Value;
+
+		/// <summary>
+		/// The value at this index as a char.
+		/// </summary>
+		/// <remarks>
+		/// Not all Unicode codepoints can fit in a char -- for instance, emoji.
+		/// </remarks>
+		public char CharValue
+		{
+			get
+			{
+				return (char)Value;
+			}
+		}
 
 		/// <summary>
 		/// The number of code units this has in the underlying string's encoding.

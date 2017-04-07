@@ -14,7 +14,7 @@ namespace FastString
 	/// 
 	/// StringView is a substring that does not reallocate data.
 	/// 
-	/// 
+	/// StringView is a struct and never holds a null string.
 	/// </remarks>
 	public struct StringSlice
 	{
@@ -24,19 +24,12 @@ namespace FastString
 
 		public StringSlice(string str, int start, int end)
 		{
-			// Treating null as empty string has some handy properties.
-#if DEBUG
 			if (str == null)
 			{
-				Contract.Assert(start == 0, "cannot create a StringView with a null string and nonzero endpoints");
-				Contract.Assert(end == 0, "cannot create a StringView with a null string and nonzero endpoints");
+				str = "";
 			}
-			else
-			{
-				Contract.Assert(end >= start, "StringView: end must not be before start");
-				Contract.Assert(end <= str.Length, "StringView: end must not be beyond end of string");
-			}
-#endif
+			Contract.Requires(end >= start, "StringView: end must not be before start");
+			Contract.Requires(end <= str.Length, "StringView: end must not be beyond end of string");
 			_str = str;
 			_start = start;
 			_end = end;

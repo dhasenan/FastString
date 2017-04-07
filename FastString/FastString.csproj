@@ -36,7 +36,6 @@
     <Compile Include="UtfIndex.cs" />
     <Compile Include="ReverseUtf8Enumerator.cs" />
     <Compile Include="Utf8Enumerator.cs" />
-    <Compile Include="UTF8Validator.cs" />
     <Compile Include="Utf8Builder.cs" />
     <Compile Include="Utf8Writer.cs" />
   </ItemGroup>

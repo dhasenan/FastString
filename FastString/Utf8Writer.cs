@@ -3,52 +3,93 @@ using System.IO;
 
 namespace FastString
 {
+	/// <summary>
+	/// An efficient appender to a stream of UTF8 data.
+	/// </summary>
+	/// <remarks>
+	/// This is a generalization of StringBuilder that works with arbitrary streams.
+	/// </remarks>
 	public class Utf8Writer
 	{
 		protected readonly Stream _out;
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:FastString.Utf8Writer"/> class.
+		/// </summary>
+		/// <param name="stream">The stream to write to.</param>
 		public Utf8Writer(Stream stream)
 		{
 			_out = stream;
 		}
 
+		/// <summary>
+		/// Append the specified utf8 string.
+		/// </summary>
+		/// <param name="str">String.</param>
 		public void Append(utf8 str)
 		{
 			_out.Write(str._bytes.Array, str._bytes.Offset, str._bytes.Count);
 		}
 
+		/// <summary>
+		/// Append the given object.
+		/// </summary>
 		public void Append(object o)
 		{
 			// TODO avoid triple allocation
 			Append(new utf8(o.ToString()));
 		}
 
+		/// <summary>
+		/// Append the given integer-type thing.
+		/// </summary>
 		public void Append(long s)
 		{
 			Append(utf8.FromLong(s));
 		}
 
+		/// <summary>
+		/// Append the given string.
+		/// </summary>
 		public void Append(string str)
 		{
 			// TODO avoid double allocation
 			Append(new utf8(str));
 		}
 
+		/// <summary>
+		/// Append the given string and insert a following newline.
+		/// </summary>
 		public void AppendLine(utf8 str)
 		{
 			Append(str);
 			_out.WriteByte((byte)'\n');
 		}
 
+		/// <summary>
+		/// Append a newline character.
+		/// </summary>
 		public void AppendLine()
 		{
 			_out.WriteByte((byte)'\n');
 		}
 
+		/// <summary>
+		/// Append a formatted string.
+		/// </summary>
+		/// <param name="fmt">The format string.</param>
+		/// <param name="args">Format arguments to use to generate the formatted value.</param>
 		public void AppendFormat(utf8 fmt, params object[] args)
 		{
 			AppendFormat(null, fmt, args);
 		}
+
+		/// <summary>
+		/// Append a formatted string.
+		/// </summary>
+		/// <param name="provider">The format provider to use to format arguments.</param>
+		/// <param name="fmt">The format string.</param>
+		/// <param name="args">Format arguments to use to generate the formatted value.</param>
 		public void AppendFormat(IFormatProvider provider, utf8 fmt, params object[] args)
 		{
 			while (fmt.Length > 0)

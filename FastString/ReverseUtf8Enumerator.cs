@@ -8,11 +8,18 @@ namespace FastString
 	/// <summary>
 	/// An enumerator that goes backwards through a UTF8 string.
 	/// </summary>
+	/// <remarks>
+	/// This is a struct to reduce allocations even further.
+	/// </remarks>
 	public struct ReverseUtf8Enumerator : IEnumerator<UtfIndex>
 	{
 		private utf8 _data;
 		private UtfIndex _current;
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:FastString.ReverseUtf8Enumerator"/> struct.
+		/// </summary>
+		/// <param name="data">The data to iterate over.</param>
 		public ReverseUtf8Enumerator(utf8 data)
 		{
 			_data = data;
@@ -20,6 +27,9 @@ namespace FastString
 			_current.Index = _data.Length;
 		}
 
+		/// <summary>
+		/// Set the iterator back to the end of the string.
+		/// </summary>
 		public void Reset()
 		{
 			_current = new UtfIndex();
@@ -28,6 +38,9 @@ namespace FastString
 
 		public void Dispose() { }
 
+		/// <summary>
+		/// Get the current value.
+		/// </summary>
 		public UtfIndex Current
 		{
 			get
@@ -36,7 +49,9 @@ namespace FastString
 			}
 		}
 
-		// I have to implement this explicitly, otherwise I get a compile error saying this needs to return object.
+		/// <summary>
+		/// Demonstrate your love of autoboxing.
+		/// </summary>
 		object IEnumerator.Current
 		{
 			get
@@ -45,6 +60,14 @@ namespace FastString
 			}
 		}
 
+		/// <summary>
+		/// Move to the next value in the string (which will be closer to the start of the string).
+		/// 
+		/// Returns false when there's no more string to move to.
+		/// </summary>
+		/// <remarks>
+		/// You've used an enumerator before, right?
+		/// </remarks>
 		public bool MoveNext()
 		{
 			if (_current.Index == 0)
@@ -122,21 +145,5 @@ namespace FastString
 			}
 			throw new InvalidDataException("invalid UTF8 sequence at start of string");
 		}
-
-		void IDisposable.Dispose()
-		{
-			throw new NotImplementedException();
-		}
-
-		bool IEnumerator.MoveNext()
-		{
-			throw new NotImplementedException();
-		}
-
-		void IEnumerator.Reset()
-		{
-			throw new NotImplementedException();
-		}
 	}
-	
 }

@@ -392,6 +392,9 @@ next: {}
 			return -1;
 		}
 
+		/// <summary>
+		/// Determine whether this string starts with the provided string.
+		/// </summary>
 		public bool StartsWith(string other)
 		{
 			var it = new Utf8Enumerator(this);
@@ -417,6 +420,9 @@ next: {}
 			return true;
 		}
 
+		/// <summary>
+		/// Determine whether this string ends with the provided string.
+		/// </summary>
 		public bool EndsWith(string other)
 		{
 			var it = new ReverseUtf8Enumerator(this);
@@ -764,17 +770,32 @@ next: {}
 		/// </summary>
 		/// <remarks>
 		/// To iterate over the UTF8-encoded bytes of the string, use the Bytes property.
+		/// 
+		/// To avoid autoboxing, use Utf8Enumerator directly.
 		/// </remarks>
 		public IEnumerator<UtfIndex> GetEnumerator()
 		{
 			return new Utf8Enumerator(this);
 		}
 
+		/// <summary>
+		/// Get an enumerator over the UTF codepoints in this string.
+		/// </summary>
+		/// <remarks>
+		/// To iterate over the UTF8-encoded bytes of the string, use the Bytes property.
+		/// 
+		/// To avoid autoboxing, use Utf8Enumerator directly.
+		/// </remarks>
+		/// <returns>The enumerator</returns>
 		IEnumerator IEnumerable.GetEnumerator()
 		{
 			return new Utf8Enumerator(this);
 		}
 
+		/// <summary>
+		/// Serves as a hash function for a <see cref="T:FastString.utf8"/> object.
+		/// </summary>
+		/// <returns>A hash code for this instance that is suitable for use in hashing algorithms and data structures such as a hash table.</returns>
 		public override int GetHashCode()
 		{
 			int hash = 0;
@@ -786,41 +807,93 @@ next: {}
 			return hash;
 		}
 
+		/// <summary>
+		/// Determines whether a specified instance of <see cref="FastString.utf8"/> is equal to another specified <see cref="string"/>.
+		/// </summary>
+		/// <param name="a">The first <see cref="FastString.utf8"/> to compare.</param>
+		/// <param name="b">The second <see cref="string"/> to compare.</param>
+		/// <returns><c>true</c> if <c>a</c> and <c>b</c> are equal; otherwise, <c>false</c>.</returns>
 		public static bool operator ==(utf8 a, string b)
 		{
 			return a.Equals(b);
 		}
 
+		/// <summary>
+		/// Determines whether a specified instance of <see cref="FastString.utf8"/> is not equal to another specified <see cref="string"/>.
+		/// </summary>
+		/// <param name="a">The first <see cref="FastString.utf8"/> to compare.</param>
+		/// <param name="b">The second <see cref="string"/> to compare.</param>
+		/// <returns><c>true</c> if <c>a</c> and <c>b</c> are not equal; otherwise, <c>false</c>.</returns>
 		public static bool operator !=(utf8 a, string b)
 		{
 			return !a.Equals(b);
 		}
 
+		/// <summary>
+		/// Determines whether a specified instance of <see cref="FastString.utf8"/> is equal to another specified <see cref="FastString.utf8"/>.
+		/// </summary>
+		/// <param name="a">The first <see cref="FastString.utf8"/> to compare.</param>
+		/// <param name="b">The second <see cref="FastString.utf8"/> to compare.</param>
+		/// <returns><c>true</c> if <c>a</c> and <c>b</c> are equal; otherwise, <c>false</c>.</returns>
 		public static bool operator ==(utf8 a, utf8 b)
 		{
 			return a.Equals(b);
 		}
 
+		/// <summary>
+		/// Determines whether a specified instance of <see cref="FastString.utf8"/> is not equal to another specified <see cref="FastString.utf8"/>.
+		/// </summary>
+		/// <param name="a">The first <see cref="FastString.utf8"/> to compare.</param>
+		/// <param name="b">The second <see cref="FastString.utf8"/> to compare.</param>
+		/// <returns><c>true</c> if <c>a</c> and <c>b</c> are not equal; otherwise, <c>false</c>.</returns>
 		public static bool operator !=(utf8 a, utf8 b)
 		{
 			return !a.Equals(b);
 		}
 
+		/// <summary>
+		/// Determines whether a specified instance of <see cref="string"/> is equal to another specified <see cref="FastString.utf8"/>.
+		/// </summary>
+		/// <param name="a">The first <see cref="string"/> to compare.</param>
+		/// <param name="b">The second <see cref="FastString.utf8"/> to compare.</param>
+		/// <returns><c>true</c> if <c>a</c> and <c>b</c> are equal; otherwise, <c>false</c>.</returns>
 		public static bool operator ==(string a, utf8 b)
 		{
 			return a.Equals(b);
 		}
 
+		/// <summary>
+		/// Determines whether a specified instance of <see cref="string"/> is not equal to another specified <see cref="FastString.utf8"/>.
+		/// </summary>
+		/// <param name="a">The first <see cref="string"/> to compare.</param>
+		/// <param name="b">The second <see cref="FastString.utf8"/> to compare.</param>
+		/// <returns><c>true</c> if <c>a</c> and <c>b</c> are not equal; otherwise, <c>false</c>.</returns>
 		public static bool operator !=(string a, utf8 b)
 		{
 			return !a.Equals(b);
 		}
 
+		/// <summary>
+		/// Format this string with the provided arguments.
+		/// </summary>
+		/// <remarks>
+		/// This should work like <see cref="System.String#Format"/>.
+		/// </remarks>
+		/// <returns>The formatted string.</returns>
+		/// <param name="args">Arguments to be inserted into the formatted output.</param>
 		public utf8 Format(params object[] args)
 		{
 			return utf8.Format(this, args);
 		}
 
+		/// <summary>
+		/// Format the provided format string with the provided arguments.
+		/// </summary>
+		/// <remarks>
+		/// This should work like <see cref="System.String#Format"/>.
+		/// </remarks>
+		/// <returns>The formatted string.</returns>
+		/// <param name="args">Arguments to be inserted into the formatted output.</param>
 		public static utf8 Format(utf8 fmt, params object[] args)
 		{
 			var ub = new Utf8Builder();
@@ -828,11 +901,23 @@ next: {}
 			return ub.ToUtf8();
 		}
 
+		/// <summary>
+		/// Turn an integer into a utf8 string.
+		/// </summary>
+		/// <returns>The integer formatted as a utf8 string.</returns>
+		/// <param name="i">The integer to convert.</param>
+		/// <param name="radix">The radix to use for conversion. Must not be greater than 36.</param>
 		public static utf8 FromInt(int i, int radix = 10)
 		{
 			return FromLong((long)i, radix);
 		}
 
+		/// <summary>
+		/// Turn a long into a utf8 string.
+		/// </summary>
+		/// <returns>The integer formatted as a utf8 string.</returns>
+		/// <param name="i">The integer to convert.</param>
+		/// <param name="radix">The radix to use for conversion. Must not be greater than 36.</param>
 		public static utf8 FromLong(long i, int radix = 10)
 		{
 			if (i == 0)
@@ -910,11 +995,17 @@ next: {}
 			0x5A,
 		};
 
+		/// <summary>
+		/// Parse a string into an integer with the given radix.
+		/// </summary>
 		public static int ParseInt(utf8 str, int radix = 10)
 		{
 			return (int) ParseLong(str, radix);
 		}
 
+		/// <summary>
+		/// Parse a string into a long with the given radix.
+		/// </summary>
 		public static long ParseLong(utf8 str, int radix = 10)
 		{
 			long v;
@@ -925,6 +1016,13 @@ next: {}
 			throw new ArgumentException("input string was not in the correct format");
 		}
 
+		/// <summary>
+		/// Try to parse a string into an integer with the given radix.
+		/// </summary>
+		/// <returns><c>true</c> if the value could be successfully parsed, otherwise <c>false</c></returns>
+		/// <param name="str">The string to parse.</param>
+		/// <param name="v">The output integer.</param>
+		/// <param name="radix">The radix in which the integer has been formatted.</param>
 		public static bool TryParseInt(utf8 str, out int v, int radix = 10)
 		{
 			long vv;
@@ -937,6 +1035,13 @@ next: {}
 			return false;
 		}
 
+		/// <summary>
+		/// Try to parse a string into an integer with the given radix.
+		/// </summary>
+		/// <returns><c>true</c> if the value could be successfully parsed, otherwise <c>false</c></returns>
+		/// <param name="str">The string to parse.</param>
+		/// <param name="v">The output long.</param>
+		/// <param name="radix">The radix in which the integer has been formatted.</param>
 		public static bool TryParseLong(utf8 str, out long v, int radix = 10)
 		{
 			if (radix > 36)

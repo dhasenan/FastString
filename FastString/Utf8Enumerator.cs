@@ -37,6 +37,9 @@ namespace FastString
 
 		public void Dispose() { }
 
+		/// <summary>
+		/// Return to the start of the string.
+		/// </summary>
 		public void Reset()
 		{
 			_current = new UtfIndex();

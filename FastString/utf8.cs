@@ -770,10 +770,8 @@ next: {}
 		/// </summary>
 		/// <remarks>
 		/// To iterate over the UTF8-encoded bytes of the string, use the Bytes property.
-		/// 
-		/// To avoid autoboxing, use Utf8Enumerator directly.
 		/// </remarks>
-		public IEnumerator<UtfIndex> GetEnumerator()
+		public Utf8Enumerator GetEnumerator()
 		{
 			return new Utf8Enumerator(this);
 		}
@@ -784,7 +782,22 @@ next: {}
 		/// <remarks>
 		/// To iterate over the UTF8-encoded bytes of the string, use the Bytes property.
 		/// 
-		/// To avoid autoboxing, use Utf8Enumerator directly.
+		/// This method is provided for compatibility with the IEnumerable interface. To avoid allocation, use the
+		/// public overload instead.
+		/// </remarks>
+		IEnumerator<UtfIndex> IEnumerable<UtfIndex>.GetEnumerator()
+		{
+			return new Utf8Enumerator(this);
+		}
+
+		/// <summary>
+		/// Get an enumerator over the UTF codepoints in this string.
+		/// </summary>
+		/// <remarks>
+		/// To iterate over the UTF8-encoded bytes of the string, use the Bytes property.
+		/// 
+		/// This method is provided for compatibility with the IEnumerable interface. To avoid allocation, use the
+		/// public overload instead.
 		/// </remarks>
 		/// <returns>The enumerator</returns>
 		IEnumerator IEnumerable.GetEnumerator()

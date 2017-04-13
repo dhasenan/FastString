@@ -1,6 +1,6 @@
 # FastString: strings in a hurry
 
-.NET's builtin strings are convenient. However, they are not designed with performnace in mind.
+.NET's builtin strings are convenient. However, they are not designed with performance in mind.
 
 FastString offers currently two methods for working with strings that can be significantly faster
 than .NET's:

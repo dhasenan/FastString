@@ -38,6 +38,12 @@
     <Compile Include="Utf8Enumerator.cs" />
     <Compile Include="Utf8Builder.cs" />
     <Compile Include="Utf8Writer.cs" />
+    <Compile Include="Splitter.cs" />
+    <Compile Include="Unicode\CharInfo.cs" />
+    <Compile Include="Unicode\CharInfo.RawData.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Unicode\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

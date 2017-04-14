@@ -91,6 +91,7 @@ namespace FastString
 					}
 					_current.Index = i;
 					_current.Value = c;
+					_current.EncodedLength = 1;
 					return true;
 				}
 				if (delta > 5)
@@ -140,6 +141,7 @@ namespace FastString
 					accumulator |= (uint)(b << (6 * delta));
 					_current.Index = i;
 					_current.Value = accumulator;
+					_current.EncodedLength = delta + 1;
 					return true;
 				}
 			}

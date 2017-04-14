@@ -49,6 +49,57 @@ namespace FastString
 		}
 
 		/// <summary>
+		/// Append the specified character.
+		/// </summary>
+		public void Append(char c)
+		{
+			if (c < 0x80)
+			{
+				_out.WriteByte((byte)c);
+				return;
+			}
+			if (c < (1 << 11))
+			{
+				// We lose 3 bits in the first octet for the length.
+				// We lose 2 bits in each subsequent octet (of which there is one).
+				// Total 16-5 => 11 bits
+				_out.WriteByte((byte)((c >> 6) | 0xC0));
+				_out.WriteByte((byte)((c & 0x3F) | 0xC0));
+				return;
+			}
+			if (c < (1 << 16))
+			{
+				// We lose 4 bits in the first octet for the length.
+				// We lose 2 bits in each subsequent octet (of which there are 2).
+				// Total 24-8 => 16 bits
+				_out.WriteByte((byte)((c >> 12) | 0xE0));
+				_out.WriteByte((byte)(((c >> 6) & 0x3F) | 0xC0));
+				_out.WriteByte((byte)((c & 0x3F) | 0xC0));
+				return;
+			}
+			if (c < (1 << 21))
+			{
+				// We lose 5 bits in the first octet for the length.
+				// We lose 2 bits in each subsequent octet (of which there are 3).
+				// Total 32-11 => 21 bits
+				_out.WriteByte((byte)((c >> 18) | 0xF0));
+				_out.WriteByte((byte)(((c >> 6) & 0x3F) | 0xC0));
+				_out.WriteByte((byte)(((c >> 12) & 0x3F) | 0xC0));
+				_out.WriteByte((byte)((c & 0x3F) | 0xC0));
+				return;
+			}
+			// We lose 6 bits in the first octet for the length.
+			// We lose 2 bits in each subsequent octet (of which there are 4).
+			// Total 40-16 => 24 bits
+			// We *shouldn't* get anything in this range.
+			_out.WriteByte((byte)((c >> 24) | 0xF8));
+			_out.WriteByte((byte)(((c >> 6) & 0x3F) | 0xC0));
+			_out.WriteByte((byte)(((c >> 12) & 0x3F) | 0xC0));
+			_out.WriteByte((byte)(((c >> 18) & 0x3F) | 0xC0));
+			_out.WriteByte((byte)((c & 0x3F) | 0xC0));
+		}
+
+		/// <summary>
 		/// Append the given string.
 		/// </summary>
 		public void Append(string str)

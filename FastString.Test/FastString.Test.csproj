@@ -35,6 +35,8 @@
     <Compile Include="Utf8Test.cs" />
     <Compile Include="Utf8WriterTest.cs" />
     <Compile Include="ReverseUtf8EnumeratorTest.cs" />
+    <Compile Include="SplitterTest.cs" />
+    <Compile Include="CharInfoSmokeTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

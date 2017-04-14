@@ -146,8 +146,9 @@ namespace FastString
 			Contract.Assert(length >= 0);
 			if (length > 0)
 			{
+				var sc = this[start] & 0xC0;
 				Contract.Assert(
-					(this[start] & 0xC0) == 0xC0,
+					sc == 0xC0 || sc <= 0x7F,
 						"tried to take a substring in the middle of a character");
 			}
 
@@ -242,7 +243,8 @@ namespace FastString
 			{
 				if (!char.IsWhiteSpace((char)it.Current.Value))
 				{
-					return Substring(0, it.Current.Index);
+					Console.WriteLine("idx: {0} len: {1}", it.Current.Index, it.Current.EncodedLength);
+					return Substring(0, it.Current.Index + it.Current.EncodedLength);
 				}
 			}
 			return utf8.Empty;
@@ -287,7 +289,7 @@ namespace FastString
 					if (it.Current.Value == (uint)splitOn[i])
 					{
 						points.Add(Substring(last, it.Current.Index - last));
-						last = it.Current.Index;
+						last = it.Current.Index + it.Current.EncodedLength;
 					}
 				}
 				if (points.Count >= maxSplits - 1)
@@ -295,7 +297,7 @@ namespace FastString
 					break;
 				}
 			}
-			points.Add(Substring(last, it.Current.Index - last));
+			points.Add(Substring(last, Length - last));
 			return points.ToArray();
 		}
 
@@ -1060,6 +1062,10 @@ next: {}
 			if (radix > 36)
 			{
 				throw new ArgumentException("radix must be at most 36");
+			}
+			if (str.Length == 0)
+			{
+				throw new ArgumentException("string was empty");
 			}
 			bool negative = str[0] == (byte)'-';
 			if (negative)

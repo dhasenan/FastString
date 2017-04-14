@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FastString", "FastString\Fa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FastString.Test", "FastString.Test\FastString.Test.csproj", "{AEF8548A-45B0-4F9B-A099-D4C88049282E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FastString.DataGen", "FastString.DataGen\FastString.DataGen.csproj", "{98665FEC-78C1-4F57-B84F-D3F6972F02DE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,5 +21,15 @@ Global
 		{AEF8548A-45B0-4F9B-A099-D4C88049282E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AEF8548A-45B0-4F9B-A099-D4C88049282E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AEF8548A-45B0-4F9B-A099-D4C88049282E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98665FEC-78C1-4F57-B84F-D3F6972F02DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98665FEC-78C1-4F57-B84F-D3F6972F02DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98665FEC-78C1-4F57-B84F-D3F6972F02DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98665FEC-78C1-4F57-B84F-D3F6972F02DE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		Policies = $0
+		$0.DotNetNamingPolicy = $1
+		$1.DirectoryNamespaceAssociation = PrefixedHierarchical
+		$1.ResourceNamePolicy = FileFormatDefault
 	EndGlobalSection
 EndGlobal

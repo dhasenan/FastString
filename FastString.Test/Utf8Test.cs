@@ -118,6 +118,8 @@ namespace FastString.Test
 			Assert.That(utf8.ParseLong(new utf8("-1")), Is.EqualTo(-1));
 			Assert.That(utf8.ParseLong(new utf8("1587")), Is.EqualTo(1587));
 			Assert.That(utf8.ParseLong(new utf8("777777777777")), Is.EqualTo(777777777777L));
+			Assert.That(utf8.ParseLong(new utf8("1")), Is.EqualTo(1L));
+			Assert.That(utf8.ParseLong(new utf8("4")), Is.EqualTo(4L));
 		}
 
 		[Test]
@@ -126,6 +128,37 @@ namespace FastString.Test
 			Assert.That(utf8.ParseLong(new utf8("-1"), 16), Is.EqualTo(-0x1));
 			Assert.That(utf8.ParseLong(new utf8("1587"), 16), Is.EqualTo(0x1587));
 			Assert.That(utf8.ParseLong(new utf8("777777777777"), 16), Is.EqualTo(0x777777777777L));
+		}
+
+		[Test]
+		public void TrimSingleChar()
+		{
+			Console.WriteLine("trimmed: [{0}]", new utf8("4").TrimEnd());
+			Assert.That(new utf8("4").Trim(), Is.EqualTo(new utf8("4")));
+		}
+
+		[Test]
+		public void Split()
+		{
+			var str = new utf8("0000;<control>;Cc;0;BN;;;;;N;NULL;;;;");
+			var list = str.Split(new char[] { ';' });
+			Assert.That(list, Is.EqualTo(new utf8[] {
+				new utf8("0000"),
+				new utf8("<control>"),
+				new utf8("Cc"),
+				new utf8("0"),
+				new utf8("BN"),
+				utf8.Empty,
+				utf8.Empty,
+				utf8.Empty,
+				utf8.Empty,
+				new utf8("N"),
+				new utf8("NULL"),
+				utf8.Empty,
+				utf8.Empty,
+				utf8.Empty,
+				utf8.Empty,
+			}));
 		}
 	}
 }

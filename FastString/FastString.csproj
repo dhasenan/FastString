@@ -40,10 +40,13 @@
     <Compile Include="Utf8Writer.cs" />
     <Compile Include="Splitter.cs" />
     <Compile Include="Unicode\CharInfo.cs" />
-    <Compile Include="Unicode\CharInfo.RawData.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Unicode\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Unicode\chardata" />
+    <EmbeddedResource Include="Unicode\charnames" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

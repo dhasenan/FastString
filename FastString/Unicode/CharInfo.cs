@@ -273,26 +273,25 @@ namespace FastString.Unicode
 
 		static CharInfo()
 		{
-			var assem = typeof(CharInfo).GetTypeInfo().Assembly;
-			var stream = assem.GetManifestResourceStream("FastString.Unicode.chardata");
+			var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("FastString.Unicode.chardata");
 			using (var mem = new MemoryStream())
 			{
 				stream.CopyTo(mem);
 				_rawData = mem.ToArray();
 			}
-			stream = assem.GetManifestResourceStream("FastString.Unicode.chartoupper");
+			stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("FastString.Unicode.chartoupper");
 			using (var mem = new MemoryStream())
 			{
 				stream.CopyTo(mem);
 				_toUpper = mem.ToArray();
 			}
-			stream = assem.GetManifestResourceStream("FastString.Unicode.chartolower");
+			stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("FastString.Unicode.chartolower");
 			using (var mem = new MemoryStream())
 			{
 				stream.CopyTo(mem);
 				_toLower = mem.ToArray();
 			}
-			stream = assem.GetManifestResourceStream("FastString.Unicode.charnames");
+			stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("FastString.Unicode.charnames");
 			using (var mem = new MemoryStream())
 			{
 				stream.CopyTo(mem);

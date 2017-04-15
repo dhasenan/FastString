@@ -22,7 +22,7 @@ namespace FastString
 		/// Build a Utf8Builder with the specified capacity.
 		/// </summary>
 		/// <param name="capacity">Capacity. Or worthiness of Mordor. Hard to say.</param>
-		public Utf8Builder(int capacity) : base(new MemoryStream(capacity))
+		public Utf8Builder(int capacity): base(new MemoryStream(capacity))
 		{
 			_memoryStream = (System.IO.MemoryStream)_out;
 		}
@@ -46,15 +46,8 @@ namespace FastString
 		/// </remarks>
 		public utf8 ToUtf8()
 		{
-#if NET_CORE
-			ArraySegment<byte> buf;
-			if (_memoryStream.TryGetBuffer(out buf)) {
-				return new utf8(buf);
-			}
-			throw new Exception("The sky is falling, we created a memory stream and it won't let us access our own data!");
-#else
-			return new utf8(new ArraySegment<byte>(_memoryStream.GetBuffer(), 0, (int)_memoryStream.Position));
-#endif
+			return new utf8(
+				new ArraySegment<byte>(_memoryStream.GetBuffer(), 0, (int)_memoryStream.Position));
 		}
 	}
 }

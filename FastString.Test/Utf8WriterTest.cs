@@ -55,17 +55,8 @@ namespace FastString.Test
 
 		utf8 Bake()
 		{
-			utf8 b;
-#if NET_CORE
-			ArraySegment<byte> buf;
-			if (stream.TryGetBuffer(out buf)) {
-				b = new utf8(buf);
-			}
-			throw new Exception("The sky is falling, we created a memory stream and it won't let us access our own data!");
-#else
-			b = new utf8(
+			var b = new utf8(
 				new ArraySegment<byte>(stream.GetBuffer(), 0, (int)stream.Position));
-#endif
 			Console.WriteLine(b.Length);
 			Console.WriteLine("[{0}]", b);
 			return b;

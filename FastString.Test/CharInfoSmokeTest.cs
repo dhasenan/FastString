@@ -8,7 +8,7 @@ namespace FastString.Test
 	public class CharInfoSmokeTest
 	{
 		[Test]
-		[Ignore()]
+		[Ignore("System.String is broken")]
 		public void SystemStringToUpper()
 		{
 			Assert.That("\uD803\uDCC1".ToUpper(), Is.EqualTo("\uD803\uDC81"));

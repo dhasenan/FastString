@@ -27,7 +27,7 @@ namespace FastString.Test
 		}
 
 		[Test]
-		[Ignore]
+		[Ignore("contract isn't being executed")]
 		public void CreateLongerThanString()
 		{
 			bool success;

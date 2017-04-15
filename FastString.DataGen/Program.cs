@@ -66,7 +66,10 @@ namespace FastString.DataGen
 
 		public void Flush() { main.Flush(); }
 
+#if NET_CORE
+#else
 		public void Close() { main.Close(); }
+#endif
 	}
 
 	class MainClass
@@ -154,9 +157,12 @@ namespace FastString.DataGen
 				}
 			}
 			main.Flush();
-			main.Close();
 			namesRaw.Flush();
+#if NET_CORE
+#else
+			main.Close();
 			namesRaw.Close();
+#endif
 		}
 
 		float GetNumericValue(utf8[] parts)

@@ -25,7 +25,7 @@ namespace FastString
 		/// <summary>
 		/// Create a Utf8Enumerator from the given utf8 string.
 		/// </summary>
-		public Utf8Enumerator(utf8 data)
+		public Utf8Enumerator(Utf8String data)
 		{
 			_data = data._bytes.Array;
 			_offset = data._bytes.Offset;

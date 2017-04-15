@@ -13,14 +13,14 @@ namespace FastString
 	/// </remarks>
 	public struct ReverseUtf8Enumerator : IEnumerator<UtfIndex>
 	{
-		private utf8 _data;
+		private Utf8String _data;
 		private UtfIndex _current;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="T:FastString.ReverseUtf8Enumerator"/> struct.
 		/// </summary>
 		/// <param name="data">The data to iterate over.</param>
-		public ReverseUtf8Enumerator(utf8 data)
+		public ReverseUtf8Enumerator(Utf8String data)
 		{
 			_data = data;
 			_current = new UtfIndex();

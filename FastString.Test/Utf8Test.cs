@@ -13,19 +13,19 @@ namespace FastString.Test
 		[Test]
 		public void AsciiLength()
 		{
-			Assert.That(new utf8("hello world").Length, Is.EqualTo(11));
+			Assert.That(new Utf8String("hello world").Length, Is.EqualTo(11));
 		}
 
 		[Test]
 		public void MultibyteCharsLength()
 		{
-			Assert.That(new utf8("“hello world”").Length, Is.EqualTo(17));
+			Assert.That(new Utf8String("“hello world”").Length, Is.EqualTo(17));
 		}
 
 		[Test]
 		public void MultibyteCharsBytes()
 		{
-			var list = new utf8("“hello”").Bytes;
+			var list = new Utf8String("“hello”").Bytes;
 			Assert.That(list, Is.EqualTo(new List<byte> {
 				0xe2, 0x80, 0x9c,
 				0x68,
@@ -43,7 +43,7 @@ namespace FastString.Test
 		public void IterateAsciiRange()
 		{
 			uint[] expected = { 0x68, 0x65, 0x6c, 0x6c, 0x6f };
-			var it = new utf8("hello").GetEnumerator();
+			var it = new Utf8String("hello").GetEnumerator();
 			for (int i = 0; i < 5; i++)
 			{
 				Assert.IsTrue(it.MoveNext());
@@ -55,7 +55,7 @@ namespace FastString.Test
 		[Test]
 		public void IterateMultibyteUtf8ButSingleByteUtf16()
 		{
-			var str = new utf8("“hat”");
+			var str = new Utf8String("“hat”");
 			var it = str.GetEnumerator();
 			Assert.IsTrue(it.MoveNext());
 			Assert.That(it.Current.Value, Is.EqualTo(0x201c));
@@ -75,89 +75,89 @@ namespace FastString.Test
 		[Test]
 		public void StringEqualsAscii()
 		{
-			Assert.That(new utf8("hello") == "hello", Is.True);
-			Assert.That(new utf8("hello") == "hellp", Is.False);
+			Assert.That(new Utf8String("hello") == "hello", Is.True);
+			Assert.That(new Utf8String("hello") == "hellp", Is.False);
 		}
 
 		[Test]
 		public void StringEqualsMultibyte()
 		{
-			Assert.That(new utf8("☃hello") == "☃hello", Is.True);
-			Assert.That(new utf8("☃hello") == "☄hello", Is.False);
+			Assert.That(new Utf8String("☃hello") == "☃hello", Is.True);
+			Assert.That(new Utf8String("☃hello") == "☄hello", Is.False);
 		}
 
 		[Test]
 		public void StringEqualsEmoji()
 		{
-			Assert.That(new utf8("\ud83d\udca9hello") == "\ud83d\udca9hello", Is.True);
-			Assert.That(new utf8("\ud83d\udca9hello") == "\ud83d\udcaahello", Is.False);
+			Assert.That(new Utf8String("\ud83d\udca9hello") == "\ud83d\udca9hello", Is.True);
+			Assert.That(new Utf8String("\ud83d\udca9hello") == "\ud83d\udcaahello", Is.False);
 		}
 
 		[Test]
 		public void Utf8Equals()
 		{
-			Assert.That(new utf8("\ud83d\udca9hello☂") == new utf8("\ud83d\udca9hello☂"), Is.True);
-			Assert.That(new utf8("\ud83d\udca9hello") == new utf8("\ud83d\udcaahello"), Is.False);
-			Assert.That(new utf8("\ud83d\udca9hello☂") == new utf8("\ud83d\udca9hello☄"), Is.False);
+			Assert.That(new Utf8String("\ud83d\udca9hello☂") == new Utf8String("\ud83d\udca9hello☂"), Is.True);
+			Assert.That(new Utf8String("\ud83d\udca9hello") == new Utf8String("\ud83d\udcaahello"), Is.False);
+			Assert.That(new Utf8String("\ud83d\udca9hello☂") == new Utf8String("\ud83d\udca9hello☄"), Is.False);
 		}
 		#endregion Equality
 
 		[Test]
 		public void FromInt()
 		{
-			Assert.That(utf8.FromInt(0), Is.EqualTo(new utf8("0")));
-			Assert.That(utf8.FromInt(1), Is.EqualTo(new utf8("1")));
-			Assert.That(utf8.FromInt(10), Is.EqualTo(new utf8("10")));
-			Assert.That(utf8.FromInt(12), Is.EqualTo(new utf8("12")));
-			Assert.That(utf8.FromInt(-12), Is.EqualTo(new utf8("-12")));
+			Assert.That(Utf8String.FromInt(0), Is.EqualTo(new Utf8String("0")));
+			Assert.That(Utf8String.FromInt(1), Is.EqualTo(new Utf8String("1")));
+			Assert.That(Utf8String.FromInt(10), Is.EqualTo(new Utf8String("10")));
+			Assert.That(Utf8String.FromInt(12), Is.EqualTo(new Utf8String("12")));
+			Assert.That(Utf8String.FromInt(-12), Is.EqualTo(new Utf8String("-12")));
 		}
 
 		[Test]
 		public void ParseLong()
 		{
-			Assert.That(utf8.ParseLong(new utf8("-1")), Is.EqualTo(-1));
-			Assert.That(utf8.ParseLong(new utf8("1587")), Is.EqualTo(1587));
-			Assert.That(utf8.ParseLong(new utf8("777777777777")), Is.EqualTo(777777777777L));
-			Assert.That(utf8.ParseLong(new utf8("1")), Is.EqualTo(1L));
-			Assert.That(utf8.ParseLong(new utf8("4")), Is.EqualTo(4L));
+			Assert.That(Utf8String.ParseLong(new Utf8String("-1")), Is.EqualTo(-1));
+			Assert.That(Utf8String.ParseLong(new Utf8String("1587")), Is.EqualTo(1587));
+			Assert.That(Utf8String.ParseLong(new Utf8String("777777777777")), Is.EqualTo(777777777777L));
+			Assert.That(Utf8String.ParseLong(new Utf8String("1")), Is.EqualTo(1L));
+			Assert.That(Utf8String.ParseLong(new Utf8String("4")), Is.EqualTo(4L));
 		}
 
 		[Test]
 		public void ParseLongRadix()
 		{
-			Assert.That(utf8.ParseLong(new utf8("-1"), 16), Is.EqualTo(-0x1));
-			Assert.That(utf8.ParseLong(new utf8("1587"), 16), Is.EqualTo(0x1587));
-			Assert.That(utf8.ParseLong(new utf8("777777777777"), 16), Is.EqualTo(0x777777777777L));
+			Assert.That(Utf8String.ParseLong(new Utf8String("-1"), 16), Is.EqualTo(-0x1));
+			Assert.That(Utf8String.ParseLong(new Utf8String("1587"), 16), Is.EqualTo(0x1587));
+			Assert.That(Utf8String.ParseLong(new Utf8String("777777777777"), 16), Is.EqualTo(0x777777777777L));
 		}
 
 		[Test]
 		public void TrimSingleChar()
 		{
-			Console.WriteLine("trimmed: [{0}]", new utf8("4").TrimEnd());
-			Assert.That(new utf8("4").Trim(), Is.EqualTo(new utf8("4")));
+			Console.WriteLine("trimmed: [{0}]", new Utf8String("4").TrimEnd());
+			Assert.That(new Utf8String("4").Trim(), Is.EqualTo(new Utf8String("4")));
 		}
 
 		[Test]
 		public void Split()
 		{
-			var str = new utf8("0000;<control>;Cc;0;BN;;;;;N;NULL;;;;");
+			var str = new Utf8String("0000;<control>;Cc;0;BN;;;;;N;NULL;;;;");
 			var list = str.Split(new char[] { ';' });
-			Assert.That(list, Is.EqualTo(new utf8[] {
-				new utf8("0000"),
-				new utf8("<control>"),
-				new utf8("Cc"),
-				new utf8("0"),
-				new utf8("BN"),
-				utf8.Empty,
-				utf8.Empty,
-				utf8.Empty,
-				utf8.Empty,
-				new utf8("N"),
-				new utf8("NULL"),
-				utf8.Empty,
-				utf8.Empty,
-				utf8.Empty,
-				utf8.Empty,
+			Assert.That(list, Is.EqualTo(new Utf8String[] {
+				new Utf8String("0000"),
+				new Utf8String("<control>"),
+				new Utf8String("Cc"),
+				new Utf8String("0"),
+				new Utf8String("BN"),
+				Utf8String.Empty,
+				Utf8String.Empty,
+				Utf8String.Empty,
+				Utf8String.Empty,
+				new Utf8String("N"),
+				new Utf8String("NULL"),
+				Utf8String.Empty,
+				Utf8String.Empty,
+				Utf8String.Empty,
+				Utf8String.Empty,
 			}));
 		}
 	}

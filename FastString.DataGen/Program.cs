@@ -9,7 +9,7 @@ namespace FastString.DataGen
 	class MainClass
 	{
 		static readonly char[] separator = { ';' };
-		static readonly utf8 IsMirrored = new utf8("Y");
+		static readonly Utf8String IsMirrored = new Utf8String("Y");
 
 		public static void Main(string[] args)
 		{
@@ -21,7 +21,7 @@ namespace FastString.DataGen
 		public void DoThings(string[] args)
 		{
 			// Data file available at http://www.unicode.org/Public/UCD/latest/ucd/UnicodeData.txt
-			var data = new utf8(File.ReadAllBytes(args[0]));
+			var data = new Utf8String(File.ReadAllBytes(args[0]));
 
 			var lines = new Splitter('\n', data);
 
@@ -83,15 +83,15 @@ namespace FastString.DataGen
 			namesRaw.Close();
 		}
 
-		float GetNumericValue(utf8[] parts)
+		float GetNumericValue(Utf8String[] parts)
 		{
 			if (parts[6].HasValue)
 			{
-				return utf8.ParseInt(parts[6]);
+				return Utf8String.ParseInt(parts[6]);
 			}
 			if (parts[7].HasValue)
 			{
-				return utf8.ParseInt(parts[7]);
+				return Utf8String.ParseInt(parts[7]);
 			}
 			if (parts[8].HasValue)
 			{
@@ -101,11 +101,11 @@ namespace FastString.DataGen
 				{
 					Console.WriteLine("{0} / {1}", p[0], p[1]);
 					Console.WriteLine("{0} / {1}", p[0].Trim(), p[1].Trim());
-					return (utf8.ParseInt(p[0].Trim()) * 1.0f / utf8.ParseInt(p[1].Trim()));
+					return (Utf8String.ParseInt(p[0].Trim()) * 1.0f / Utf8String.ParseInt(p[1].Trim()));
 				}
 				else
 				{
-					return utf8.ParseInt(parts[8]);
+					return Utf8String.ParseInt(parts[8]);
 				}
 			}
 			return float.NaN;
@@ -136,7 +136,7 @@ namespace FastString.DataGen
 			main.WriteByte(v);
 		}
 
-		void WriteCodepoint(utf8 codepoint, utf8 backup)
+		void WriteCodepoint(Utf8String codepoint, Utf8String backup)
 		{
 			if (codepoint.HasValue)
 			{
@@ -146,17 +146,17 @@ namespace FastString.DataGen
 			WriteCodepoint(backup);
 		}
 
-		void WriteCodepoint(utf8 codepoint)
+		void WriteCodepoint(Utf8String codepoint)
 		{
 			if (!codepoint.HasValue)
 			{
 				WriteUint32(0);
 				return;
 			}
-			WriteUint32((uint)utf8.ParseInt(codepoint, 16));
+			WriteUint32((uint)Utf8String.ParseInt(codepoint, 16));
 		}
 
-		byte ParseCategory(utf8 str)
+		byte ParseCategory(Utf8String str)
 		{
 			return (byte)CharInfo.ParseCategory(str);
 		}

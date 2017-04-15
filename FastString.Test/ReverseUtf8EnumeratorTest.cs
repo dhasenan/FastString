@@ -9,7 +9,7 @@ namespace FastString.Test
 		[Test]
 		public void Simple()
 		{
-			var str = new utf8("Hi!\n");
+			var str = new Utf8String("Hi!\n");
 			var it = new ReverseUtf8Enumerator(str);
 			it.MoveNext();
 			Assert.That(it.Current.Value, Is.EqualTo((int)'\n'));

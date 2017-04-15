@@ -53,6 +53,11 @@ namespace FastString
 		/// </summary>
 		public void Append(char c)
 		{
+			AppendCodepoint(_out, c);
+		}
+
+		internal static void AppendCodepoint(Stream _out, uint c)
+		{
 			if (c < 0x80)
 			{
 				_out.WriteByte((byte)c);
@@ -83,8 +88,8 @@ namespace FastString
 				// We lose 2 bits in each subsequent octet (of which there are 3).
 				// Total 32-11 => 21 bits
 				_out.WriteByte((byte)((c >> 18) | 0xF0));
-				_out.WriteByte((byte)(((c >> 6) & 0x3F) | 0xC0));
 				_out.WriteByte((byte)(((c >> 12) & 0x3F) | 0xC0));
+				_out.WriteByte((byte)(((c >> 6) & 0x3F) | 0xC0));
 				_out.WriteByte((byte)((c & 0x3F) | 0xC0));
 				return;
 			}
@@ -93,9 +98,9 @@ namespace FastString
 			// Total 40-16 => 24 bits
 			// We *shouldn't* get anything in this range.
 			_out.WriteByte((byte)((c >> 24) | 0xF8));
-			_out.WriteByte((byte)(((c >> 6) & 0x3F) | 0xC0));
-			_out.WriteByte((byte)(((c >> 12) & 0x3F) | 0xC0));
 			_out.WriteByte((byte)(((c >> 18) & 0x3F) | 0xC0));
+			_out.WriteByte((byte)(((c >> 12) & 0x3F) | 0xC0));
+			_out.WriteByte((byte)(((c >> 6) & 0x3F) | 0xC0));
 			_out.WriteByte((byte)((c & 0x3F) | 0xC0));
 		}
 

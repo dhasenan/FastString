@@ -47,6 +47,8 @@
   <ItemGroup>
     <EmbeddedResource Include="Unicode\chardata" />
     <EmbeddedResource Include="Unicode\charnames" />
+    <EmbeddedResource Include="Unicode\chartoupper" />
+    <EmbeddedResource Include="Unicode\chartolower" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

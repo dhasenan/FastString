@@ -5,6 +5,7 @@ using System.Diagnostics.Contracts;
 using System.Globalization;
 using System.IO;
 using System.Text;
+using FastString.Unicode;
 
 namespace FastString
 {
@@ -525,7 +526,7 @@ next: {}
 		}
 
 		/// <summary>
-		/// Create a copy of this string converted to uppercase, using the current culture.
+		/// Create a copy of this string converted to uppercase.
 		/// </summary>
 		/// <remarks>
 		/// This obviously allocates a new array to hold the uppercase data.
@@ -534,76 +535,23 @@ next: {}
 		/// </remarks>
 		public utf8 ToUpper()
 		{
-			return ToUpper(CultureInfo.CurrentCulture);
-		}
-
-		/// <summary>
-		/// Create a copy of this string converted to uppercase, using the invariant culture.
-		/// </summary>
-		/// <remarks>
-		/// This obviously allocates a new array to hold the uppercase data.
-		///
-		/// The length of the output is not necessarily the same as the length of the input.
-		/// </remarks>
-		public utf8 ToUpperInvariant()
-		{
-			return ToUpper(CultureInfo.InvariantCulture);
-		}
-
-		/// <summary>
-		/// Create a copy of this string converted to uppercase.
-		/// </summary>
-		/// <remarks>
-		/// This obviously allocates a new array to hold the uppercase data.
-		///
-		/// The length of the output is not necessarily the same as the length of the input.
-		/// </remarks>
-		public utf8 ToUpper(CultureInfo info)
-		{
 			if (Length == 0) return Empty;
 
-			var ch = new char[1];
 			var it = new Utf8Enumerator(this);
 			int len = 0;
 			while (it.MoveNext())
 			{
-				if (it.Current.Value <= 0x1FFFF)
-				{
-					var lc = char.ToUpper((char)it.Current.Value);
-					ch[0] = lc;
-					len += Encoding.UTF8.GetByteCount(ch);
-				}
-				else
-				{
-					// We're in emoji land, so no upper/lowercase.
-					// (This will fail in the future should unicode get codepoints representing
-					// upper/lowercase characters in this range.)
-					len += it.Current.EncodedLength;
-				}
+				len += CharInfo.Utf8Length(CharInfo.ToUpper(it.Current.Value));
 			}
 
 			it.Reset();
 
 			var buf = new byte[len];
+			var stream = new MemoryStream(buf);
+			len = 0;
 			while (it.MoveNext())
 			{
-				if (it.Current.Value <= 0x1FFFF)
-				{
-					var lc = char.ToUpper((char)it.Current.Value);
-					ch[0] = lc;
-					len += Encoding.UTF8.GetBytes(ch, 0, 1, buf, len);
-				}
-				else
-				{
-					// We're in emoji land, so no upper/lowercase.
-					// (This will fail in the future should unicode get codepoints representing
-					// upper/lowercase characters in this range.)
-					for (int i = 0; i < it.Current.EncodedLength; i++)
-					{
-						buf[len] = this[i + it.Current.Index];
-						len++;
-					}
-				}
+				Utf8Writer.AppendCodepoint(stream, CharInfo.ToUpper(it.Current.Value));
 			}
 
 			return new utf8(buf);

@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.Text;
 using NUnit.Framework;
 
 namespace FastString.Test
@@ -77,6 +75,12 @@ namespace FastString.Test
 		{
 			Assert.That(new utf8("hello") == "hello", Is.True);
 			Assert.That(new utf8("hello") == "hellp", Is.False);
+		}
+
+		[Test]
+		public void StringEqualsParanoiaSc()
+		{
+			Assert.That(new utf8("Sc") == "Sc", Is.True);
 		}
 
 		[Test]
@@ -159,6 +163,20 @@ namespace FastString.Test
 				utf8.Empty,
 				utf8.Empty,
 			}));
+		}
+
+		[Test]
+		public void ToUpper()
+		{
+			Assert.That(new utf8("hello WORLD").ToUpper(), Is.EqualTo(new utf8("HELLO WORLD")));
+		}
+
+		[Test]
+		public void ToUpperOldHungarian()
+		{
+			// System.String doesn't correctly handle this.
+			// Let's show that we're better.
+			Assert.That(new utf8("\uD803\uDCC1").ToUpper(), Is.EqualTo(new utf8("\uD803\uDC81")));
 		}
 	}
 }

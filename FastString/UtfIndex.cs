@@ -42,6 +42,11 @@ namespace FastString
 		/// The number of code units this has in the underlying string's encoding.
 		/// </summary>
 		public int EncodedLength;
+
+		public override string ToString()
+		{
+			return Value.ToString("X4");
+		}
 	}
 	
 }

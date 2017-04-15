@@ -18,7 +18,7 @@ namespace FastString.Test
 		public void AsciiTab()
 		{
 			var ci = CharInfo.For('\t').Value;
-			Assert.That(ci.Name, Is.EqualTo(new utf8("<control>")), ci.Name.ToString());
+			Assert.That(ci.Name, Is.EqualTo(new Utf8String("<control>")), ci.Name.ToString());
 		}
 
 		[Test]
@@ -26,7 +26,7 @@ namespace FastString.Test
 		{
 			var ci = CharInfo.For('$').Value;
 			Assert.That(ci.Codepoint, Is.EqualTo((uint)0x24));
-			Assert.That(ci.Name, Is.EqualTo(new utf8("DOLLAR SIGN")), ci.Name.ToString());
+			Assert.That(ci.Name, Is.EqualTo(new Utf8String("DOLLAR SIGN")), ci.Name.ToString());
 			Assert.That(ci.Category, Is.EqualTo(UnicodeCategory.SymbolCurrency));
 		}
 

@@ -27,7 +27,7 @@ namespace FastString.Test
 		}
 
 		[Test]
-		[Ignore]
+		[Ignore("")] // TODO: explain
 		public void CreateLongerThanString()
 		{
 			bool success;

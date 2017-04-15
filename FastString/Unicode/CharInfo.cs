@@ -104,7 +104,7 @@ namespace FastString.Unicode
 
 			if (_rawNames != null)
 			{
-				info.Name = new utf8(new ArraySegment<byte>(_rawNames, (int)nameStart, (int)(nameEnd - nameStart)));
+				info.Name = new Utf8String(new ArraySegment<byte>(_rawNames, (int)nameStart, (int)(nameEnd - nameStart)));
 			}
 
 			info.Category = (UnicodeCategory)_rawData[offset];
@@ -161,7 +161,7 @@ namespace FastString.Unicode
 				{
 					return;
 				}
-				var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("FastString.Unicode.chardata");
+				var stream = typeof(CharInfo).GetTypeInfo().Assembly.GetManifestResourceStream("FastString.Unicode.chardata");
 				using (var mem = new MemoryStream())
 				{
 					stream.CopyTo(mem);
@@ -182,7 +182,7 @@ namespace FastString.Unicode
 				{
 					return;
 				}
-				var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("FastString.Unicode.charnames");
+				var stream = typeof(CharInfo).GetTypeInfo().Assembly.GetManifestResourceStream("FastString.Unicode.charnames");
 				using (var mem = new MemoryStream())
 				{
 					stream.CopyTo(mem);
@@ -195,7 +195,7 @@ namespace FastString.Unicode
 		private static byte[] _rawData;
 		private static byte[] _rawNames;
 
-		public static UnicodeCategory ParseCategory(utf8 str)
+		public static UnicodeCategory ParseCategory(Utf8String str)
 		{
 			if (str == "Lu") return UnicodeCategory.LetterUppercase;
 			if (str == "Ll") return UnicodeCategory.LetterLowercase;
@@ -283,7 +283,7 @@ namespace FastString.Unicode
 		/// <summary>
 		/// The human-readable name of this codepoint, such as "LATIN CAPITAL LETTER A".
 		/// </summary>
-		public utf8 Name { get; internal set; }
+		public Utf8String Name { get; internal set; }
 
 		public UnicodeCategory Category { get; internal set; }
 		public bool Mirrored { get; internal set; }

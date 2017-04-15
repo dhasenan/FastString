@@ -4,15 +4,15 @@ using System.Collections.Generic;
 
 namespace FastString
 {
-	public struct Splitter : IEnumerator<utf8>, IEnumerable<utf8>
+	public struct Splitter : IEnumerator<Utf8String>, IEnumerable<Utf8String>
 	{
 		readonly uint codepoint;
-		readonly utf8 str;
+		readonly Utf8String str;
 		int currStart, currEnd, nextStart;
 
-		public Splitter(char c, utf8 str) : this((uint)c, str) { }
+		public Splitter(char c, Utf8String str) : this((uint)c, str) { }
 
-		public Splitter(uint codepoint, utf8 str)
+		public Splitter(uint codepoint, Utf8String str)
 		{
 			this.str = str;
 			this.codepoint = codepoint;
@@ -21,7 +21,7 @@ namespace FastString
 			currEnd = 0;
 		}
 
-		public utf8 Current
+		public Utf8String Current
 		{
 			get
 			{
@@ -68,7 +68,7 @@ namespace FastString
 			nextStart = 0;
 		}
 
-		public IEnumerator<utf8> GetEnumerator()
+		public IEnumerator<Utf8String> GetEnumerator()
 		{
 			return this;
 		}

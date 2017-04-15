@@ -26,7 +26,7 @@ namespace FastString
 		/// Append the specified utf8 string.
 		/// </summary>
 		/// <param name="str">String.</param>
-		public void Append(utf8 str)
+		public void Append(Utf8String str)
 		{
 			_out.Write(str._bytes.Array, str._bytes.Offset, str._bytes.Count);
 		}
@@ -37,7 +37,7 @@ namespace FastString
 		public void Append(object o)
 		{
 			// TODO avoid triple allocation
-			Append(new utf8(o.ToString()));
+			Append(new Utf8String(o.ToString()));
 		}
 
 		/// <summary>
@@ -45,7 +45,7 @@ namespace FastString
 		/// </summary>
 		public void Append(long s)
 		{
-			Append(utf8.FromLong(s));
+			Append(Utf8String.FromLong(s));
 		}
 
 		/// <summary>
@@ -105,13 +105,13 @@ namespace FastString
 		public void Append(string str)
 		{
 			// TODO avoid double allocation
-			Append(new utf8(str));
+			Append(new Utf8String(str));
 		}
 
 		/// <summary>
 		/// Append the given string and insert a following newline.
 		/// </summary>
-		public void AppendLine(utf8 str)
+		public void AppendLine(Utf8String str)
 		{
 			Append(str);
 			_out.WriteByte((byte)'\n');
@@ -130,7 +130,7 @@ namespace FastString
 		/// </summary>
 		/// <param name="fmt">The format string.</param>
 		/// <param name="args">Format arguments to use to generate the formatted value.</param>
-		public void AppendFormat(utf8 fmt, params object[] args)
+		public void AppendFormat(Utf8String fmt, params object[] args)
 		{
 			AppendFormat(null, fmt, args);
 		}
@@ -141,7 +141,7 @@ namespace FastString
 		/// <param name="provider">The format provider to use to format arguments.</param>
 		/// <param name="fmt">The format string.</param>
 		/// <param name="args">Format arguments to use to generate the formatted value.</param>
-		public void AppendFormat(IFormatProvider provider, utf8 fmt, params object[] args)
+		public void AppendFormat(IFormatProvider provider, Utf8String fmt, params object[] args)
 		{
 			while (fmt.Length > 0)
 			{
@@ -164,11 +164,11 @@ namespace FastString
 				fmt = fmt.Substring(end + 1);
 				var opts = cmd.IndexOf(':');
 				int index;
-				utf8 indexStr;
-				utf8 argFormat;
+				Utf8String indexStr;
+				Utf8String argFormat;
 				if (opts < 0)
 				{
-					argFormat = utf8.Empty;
+					argFormat = Utf8String.Empty;
 					indexStr = cmd;
 				}
 				else
@@ -176,7 +176,7 @@ namespace FastString
 					indexStr = cmd.Substring(0, opts);
 					argFormat = cmd.Substring(opts + 1);
 				}
-				if (!utf8.TryParseInt(indexStr, out index))
+				if (!Utf8String.TryParseInt(indexStr, out index))
 				{
 					throw new FormatException(
 						string.Format("Invalid format string: '{0}' is not a valid argument specifier", indexStr));
@@ -210,6 +210,6 @@ namespace FastString
 			}
 		}
 
-		private static readonly utf8 OBRACE = new utf8("{");
+		private static readonly Utf8String OBRACE = new Utf8String("{");
 	}
 }

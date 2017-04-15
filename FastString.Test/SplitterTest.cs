@@ -10,60 +10,60 @@ namespace FastString.Test
 		[Test]
 		public void Split()
 		{
-			var str = new utf8(";a;b;cdef;;k;");
+			var str = new Utf8String(";a;b;cdef;;k;");
 			var target = new Splitter(';', str);
 			var parts = target.ToList();
 
-			Assert.That(parts, Is.EqualTo(new List<utf8> {
-				utf8.Empty,
-				new utf8("a"),
-				new utf8("b"),
-				new utf8("cdef"),
-				utf8.Empty,
-				new utf8("k"),
-				utf8.Empty
+			Assert.That(parts, Is.EqualTo(new List<Utf8String> {
+				Utf8String.Empty,
+				new Utf8String("a"),
+				new Utf8String("b"),
+				new Utf8String("cdef"),
+				Utf8String.Empty,
+				new Utf8String("k"),
+				Utf8String.Empty
 			}));
 		}
 
 		[Test]
 		public void OnlySeparator()
 		{
-			var str = new utf8(";;;;;");
-			Assert.That(new Splitter(';', str).ToList(), Is.EqualTo(new List<utf8> {
-				utf8.Empty,
-				utf8.Empty,
-				utf8.Empty,
-				utf8.Empty,
-				utf8.Empty,
-				utf8.Empty,
+			var str = new Utf8String(";;;;;");
+			Assert.That(new Splitter(';', str).ToList(), Is.EqualTo(new List<Utf8String> {
+				Utf8String.Empty,
+				Utf8String.Empty,
+				Utf8String.Empty,
+				Utf8String.Empty,
+				Utf8String.Empty,
+				Utf8String.Empty,
 			}));
 		}
 
 		[Test]
 		public void Vexing()
 		{
-			var str = new utf8("0000;<control>;Cc;0;BN;;;;;N;NULL;;;;");
+			var str = new Utf8String("0000;<control>;Cc;0;BN;;;;;N;NULL;;;;");
 			var list = new Splitter(';', str).ToList();
 			foreach (var c in list)
 			{
 				System.Console.WriteLine(c);
 			}
-			Assert.That(list, Is.EqualTo(new List<utf8> {
-				new utf8("0000"),
-				new utf8("<control>"),
-				new utf8("Cc"),
-				new utf8("0"),
-				new utf8("BN"),
-				utf8.Empty,
-				utf8.Empty,
-				utf8.Empty,
-				utf8.Empty,
-				new utf8("N"),
-				new utf8("NULL"),
-				utf8.Empty,
-				utf8.Empty,
-				utf8.Empty,
-				utf8.Empty,
+			Assert.That(list, Is.EqualTo(new List<Utf8String> {
+				new Utf8String("0000"),
+				new Utf8String("<control>"),
+				new Utf8String("Cc"),
+				new Utf8String("0"),
+				new Utf8String("BN"),
+				Utf8String.Empty,
+				Utf8String.Empty,
+				Utf8String.Empty,
+				Utf8String.Empty,
+				new Utf8String("N"),
+				new Utf8String("NULL"),
+				Utf8String.Empty,
+				Utf8String.Empty,
+				Utf8String.Empty,
+				Utf8String.Empty,
 			}));
 		}
 	}
